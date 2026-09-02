@@ -12,10 +12,11 @@ import requests
 # --------------------------------------------------------------------------- #
 # CONFIGURACAO
 # --------------------------------------------------------------------------- #
-# Recorte oficial adotado: Regiao Geografica Intermediaria do IBGE (2017).
-# "Sao Paulo" e a intermediaria centrada na capital. Para trocar o recorte,
-# altere o nome abaixo (ex.: "Campinas", "Sorocaba") ou use IMEDIATAS_ALVO.
-INTERMEDIARIA_ALVO = "Sao Paulo"
+# Recorte oficial adotado: Regioes Geograficas Intermediarias do IBGE (2017).
+# A intermediaria de Sao Paulo sozinha tem ~50 municipios (abaixo do minimo de
+# 80 vertices); por isso combinamos intermediarias oficiais e contiguas ate
+# ultrapassar o minimo. Para ajustar o recorte, edite a lista abaixo.
+INTERMEDIARIAS_ALVO = ["Sao Paulo", "Sorocaba", "Campinas"]
 
 # (Opcional) Se quiser um recorte menor, liste aqui os nomes das Regioes
 # Geograficas IMEDIATAS desejadas; se a lista estiver vazia, usa a
@@ -50,7 +51,7 @@ def obter_municipios_ibge():
     resp.raise_for_status()
     dados = resp.json()
 
-    alvo_inter = normaliza(INTERMEDIARIA_ALVO)
+    alvos_inter = {normaliza(x) for x in INTERMEDIARIAS_ALVO}
     alvos_imed = {normaliza(x) for x in IMEDIATAS_ALVO}
 
     selecionados = []
@@ -62,7 +63,7 @@ def obter_municipios_ibge():
         if alvos_imed:
             ok = normaliza(nome_imed) in alvos_imed
         else:
-            ok = normaliza(nome_inter) == alvo_inter
+            ok = normaliza(nome_inter) in alvos_inter
         if ok:
             selecionados.append({
                 "codigo_ibge": m["id"],
@@ -71,7 +72,10 @@ def obter_municipios_ibge():
                 "intermediaria": nome_inter,
             })
     selecionados.sort(key=lambda x: x["nome"])
+    from collections import Counter
+    por_inter = Counter(m["intermediaria"] for m in selecionados)
     print(f"  -> {len(selecionados)} municipios no recorte selecionado.")
+    print(f"     por intermediaria: {dict(por_inter)}")
     return selecionados
 
 
