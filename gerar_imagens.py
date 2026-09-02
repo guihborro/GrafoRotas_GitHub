@@ -1,7 +1,7 @@
 # GrafoRotas - Geracao das figuras do relatorio (esboco e malha completa).
 # Teoria dos Grafos | Bacharelado em Ciencia da Computacao
 # Integrantes: Guilherme Haddad Borro - RA 10427699 | Rafael Lima - RA 10425819 | Pedro Augusto Yoshikuni - RA 10410287 | Tiago Silveira Lopes - RA 10417600
-# Historico: 2026-09-02 | [Autor] | versao atual
+# Historico: 2026-09-02
 
 import csv
 import os

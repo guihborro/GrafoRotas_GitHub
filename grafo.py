@@ -1,7 +1,7 @@
 # GrafoRotas - Infraestrutura do grafo (classe Grafo): lista de adjacencia, I/O do grafo.txt, conexidade e grafo reduzido.
 # Teoria dos Grafos | Bacharelado em Ciencia da Computacao
 # Integrantes: Guilherme Haddad Borro - RA 10427699 | Rafael Lima - RA 10425819 | Pedro Augusto Yoshikuni - RA 10410287 | Tiago Silveira Lopes - RA 10417600
-# Historico: 2026-09-02 | [Autor] | versao atual
+# Historico: 2026-09-02
 
 class Grafo:
     """Grafo nao orientado, ponderado nas arestas, representado por lista de
